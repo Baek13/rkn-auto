@@ -1,0 +1,24 @@
+name: Valider le catalogue
+
+on:
+  push:
+    paths:
+      - "catalogue.json"
+      - "outils/valider-catalogue.mjs"
+  pull_request:
+    paths:
+      - "catalogue.json"
+  workflow_dispatch:
+
+jobs:
+  valider:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Contrôler catalogue.json
+        run: node outils/valider-catalogue.mjs catalogue.json
