@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; form-action 'none'; base-uri 'none'; frame-ancestors 'none'">
+<title>Composer votre prestation</title>
+<style>
+:root{
+  --encre:#172B38;
+  --encre-clair:#33505F;
+  --violet:#6A3FA6;
+  --violet-fonce:#54307F;
+  --papier:#EEEFEA;
+  --blanc:#FFFFFF;
+  --texte:#172B38;
+  --texte-2:#5B6C77;
+  --trait:rgba(23,43,56,.14);
+  --r:10px;
+  --max:640px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--papier);
+  color:var(--texte);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:120px;
+}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
+.bandeau{background:var(--encre);color:#fff;padding:22px 0 20px}
+.bandeau .wrap{display:block}
+.bandeau h1{font-size:20px;font-weight:600;margin:0;letter-spacing:-.01em}
+.bandeau p{margin:6px 0 0;font-size:13px;color:#B9C6CE}
+.pour{display:inline-block;margin-top:12px;background:rgba(255,255,255,.12);border-radius:var(--r);padding:6px 12px;font-size:13px}
+.etapes{display:flex;gap:8px;margin:18px 0 4px}
+.etape{flex:1;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--texte-2)}
+.puce{width:22px;height:22px;border-radius:50%;background:var(--trait);color:var(--texte-2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none}
+.etape.on{color:var(--texte);font-weight:600}
+.etape.on .puce{background:var(--violet);color:#fff}
+.etape.fait .puce{background:var(--encre);color:#fff}
+h2{font-size:18px;font-weight:600;margin:24px 0 4px;letter-spacing:-.01em}
+.sous{margin:0 0 14px;color:var(--texte-2);font-size:14px}
+.carte{background:var(--blanc);border:1px solid var(--trait);border-radius:var(--r);padding:16px;margin-bottom:10px}
+.branche{width:100%;text-align:left;background:var(--blanc);border:1px solid var(--trait);border-radius:var(--r);padding:16px;margin-bottom:10px;cursor:pointer;font:inherit;color:inherit;display:block}
+.branche:hover{border-color:var(--encre)}
+.branche.off{opacity:.45;cursor:not-allowed}
+.branche strong{display:block;font-size:16px;font-weight:600;margin-bottom:4px}
+.branche span{color:var(--texte-2);font-size:14px}
+.bientot{display:inline-block;margin-top:8px;font-size:12px;color:var(--texte-2);border:1px solid var(--trait);border-radius:6px;padding:2px 8px}
+.q{margin-bottom:6px;font-weight:600;font-size:15px}
+.qaide{color:var(--texte-2);font-size:13px;margin:0 0 10px}
+.choix{display:flex;flex-wrap:wrap;gap:8px}
+.opt{border:1px solid var(--trait);background:var(--blanc);border-radius:var(--r);padding:10px 14px;font:inherit;color:inherit;cursor:pointer}
+.opt[aria-pressed="true"]{background:var(--encre);color:#fff;border-color:var(--encre)}
+.ligne{display:flex;gap:12px;padding:14px 0;border-top:1px solid var(--trait)}
+.ligne:first-of-type{border-top:0}
+.case{flex:none;width:22px;height:22px;border-radius:5px;border:2px solid var(--encre-clair);background:var(--blanc);margin-top:2px;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
+.case[aria-pressed="true"]{background:var(--violet);border-color:var(--violet)}
+.case[aria-pressed="true"]::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.corps{flex:1;min-width:0}
+.titre-item{font-weight:600;font-size:15px}
+.si{color:var(--texte-2);font-size:13.5px;margin-top:3px}
+.meta{color:var(--texte-2);font-size:13px;margin-top:6px}
+.prix{flex:none;font-weight:600;font-size:15px;text-align:right;white-space:nowrap}
+.prix.gris{color:var(--texte-2);font-weight:400}
+.concret{background:var(--papier);border-radius:8px;padding:12px;margin-top:10px;font-size:13.5px}
+.exclu{background:var(--encre);color:#fff;border-radius:8px;padding:14px;margin-top:10px}
+.exclu h4{margin:0 0 8px;font-size:13px;font-weight:600;color:#fff}
+.exclu ul{margin:0;padding-left:18px;font-size:13.5px;color:#D5DEE3}
+.exclu li{margin-bottom:4px}
+.ajouter{margin-top:12px;background:#fff;color:var(--violet-fonce);border:0;border-radius:8px;padding:8px 12px;font:inherit;font-weight:600;font-size:13.5px;cursor:pointer}
+.stepper{display:flex;align-items:center;gap:14px;border:1px solid var(--trait);border-radius:var(--r);padding:6px 10px;background:var(--blanc)}
+.stepper button{width:34px;height:34px;border-radius:8px;border:1px solid var(--trait);background:var(--blanc);font-size:20px;line-height:1;cursor:pointer;color:var(--encre)}
+.stepper button:disabled{opacity:.35;cursor:not-allowed}
+.stepper .val{font-weight:600;min-width:56px;text-align:center}
+.recap-l{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:14.5px}
+.recap-t{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--trait);margin-top:8px;padding-top:12px}
+.recap-t b{font-size:24px;font-weight:600}
+label.champ{display:block;font-weight:600;font-size:14px;margin:0 0 6px}
+textarea,input[type=text],input[type=email],input[type=tel]{
+  width:100%;font:inherit;color:inherit;background:var(--blanc);
+  border:1px solid var(--trait);border-radius:var(--r);padding:11px 12px;
+}
+textarea{min-height:88px;resize:vertical}
+textarea:focus,input:focus,button:focus-visible,.opt:focus-visible,.case:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.aide{color:var(--texte-2);font-size:12.5px;margin:5px 0 0}
+.attest{display:flex;gap:12px;align-items:flex-start;background:var(--blanc);border:1px solid var(--trait);border-radius:var(--r);padding:14px;margin-top:10px}
+.attest.manque{border-color:var(--violet);border-width:2px}
+.attest p{margin:0;font-size:14px}
+.err{color:var(--violet-fonce);font-size:13px;font-weight:600;margin:6px 0 0}
+.barre{position:fixed;left:0;right:0;bottom:0;background:var(--encre);color:#fff;padding:12px 0 14px;z-index:5}
+.barre .wrap{display:flex;align-items:center;gap:14px}
+.barre .info{flex:1;min-width:0}
+.barre .n{font-size:12px;color:#B9C6CE}
+.barre .m{font-size:22px;font-weight:600;line-height:1.2}
+.cta{background:var(--violet);color:#fff;border:0;border-radius:var(--r);padding:14px 18px;font:inherit;font-weight:600;font-size:15px;cursor:pointer;flex:none}
+.cta.plein{width:100%;margin-top:4px}
+.cta:disabled{opacity:.55}
+.retour{background:none;border:0;color:var(--texte-2);font:inherit;font-size:14px;padding:10px 0;cursor:pointer;text-decoration:underline}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.fin{background:var(--blanc);border:1px solid var(--trait);border-radius:var(--r);padding:22px;text-align:left}
+.fin .ref{display:inline-block;background:var(--encre);color:#fff;border-radius:8px;padding:8px 14px;font-weight:600;margin:10px 0 14px}
+.pied{color:var(--texte-2);font-size:12.5px;margin:26px 0 10px}
+@media (prefers-reduced-motion:no-preference){.barre .m{transition:opacity .12s ease}}
+</style>
+</head>
+<body>
+
+<header class="bandeau">
+  <div class="wrap">
+    <h1>Composer votre prestation</h1>
+    <p id="soustitre">Consultant formateur en administration systèmes et réseaux et en cybersécurité</p>
+    <div class="pour" id="pour" hidden></div>
+  </div>
+</header>
+
+<main class="wrap" id="app">
+  <p class="sous" id="chargement">Chargement du catalogue…</p>
+</main>
+
+<div class="barre" id="barre" hidden>
+  <div class="wrap">
+    <div class="info">
+      <div class="n" id="barre-n"></div>
+      <div class="m" id="barre-m"></div>
+    </div>
+    <button class="cta" id="barre-cta" type="button"></button>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+var ENDPOINT = "https://script.google.com/macros/s/COLLER_ICI_ID_DEPLOIEMENT/exec";
+
+/* Coordonnées de secours, en dur : elles servent quand catalogue.json
+   est indisponible, donc elles ne peuvent pas en dépendre. */
+var REPLI = { nom: "Rémi Kinkel", email: "kiduloc@gmail.com" };
+
+var CAT = null;
+var S = { branche:null, reponses:{}, jours:0, options:{}, precisions:"", c1:false, c2:false, etape:1 };
+var ENVOI = false;
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function eur(n){ return n.toLocaleString("fr-FR") + " €"; }
+function branche(){ return CAT.branches.filter(function(b){ return b.id===S.branche; })[0] || null; }
+
+function param(n){ return new URLSearchParams(location.search).get(n) || ""; }
+
+/* ---------- calcul ---------- */
+
+function socleActif(){
+  var b = branche(); if(!b) return [];
+  return b.socle.map(function(it){
+    var j = it.jours, note = null;
+    if(it.joursSi && S.reponses[it.joursSi.question] === it.joursSi.valeur){ j = it.joursSi.jours; note = it.noteSi; }
+    return { id:it.id, intitule:it.intitule, jours:j, note:note, src:it };
+  });
+}
+
+function optionsActives(){
+  var b = branche(); if(!b) return [];
+  return b.options.filter(function(o){ return S.options[o.id]; });
+}
+
+function detail(){
+  var b = branche(); if(!b) return [];
+  var l = [];
+  if(b.variable) l.push({ id:b.variable.id, intitule:b.variable.intitule, jours:S.jours, src:b.variable });
+  socleActif().forEach(function(x){ l.push(x); });
+  optionsActives().forEach(function(o){ l.push({ id:o.id, intitule:o.intitule, jours:o.jours, src:o }); });
+  return l;
+}
+
+function totalJours(){ return detail().reduce(function(a,x){ return a + x.jours; }, 0); }
+function totalEuros(){ return totalJours() * CAT.prixJour; }
+
+function exclusions(){
+  var vu = {}, out = [];
+  detail().forEach(function(x){
+    (x.src.neFaitPas||[]).forEach(function(t){
+      if(!vu[t]){ vu[t]=1; out.push({ texte:t, option:x.src.optionLiee||null }); }
+    });
+  });
+  return out;
+}
+
+function prerequis(){
+  var vu = {}, out = [];
+  detail().forEach(function(x){ (x.src.prerequis||[]).forEach(function(t){ if(!vu[t]){ vu[t]=1; out.push(t); } }); });
+  return out;
+}
+
+/* ---------- url ---------- */
+
+function ecrireHash(){
+  if(!S.branche){ history.replaceState(null,"",location.pathname+location.search); return; }
+  var q = Object.keys(S.reponses).map(function(k){ return k+":"+S.reponses[k]; }).join(",");
+  var i = Object.keys(S.options).filter(function(k){ return S.options[k]; }).join(",");
+  var h = "#b="+S.branche+"&j="+S.jours+(q?"&q="+q:"")+(i?"&i="+i:"");
+  history.replaceState(null,"",location.pathname+location.search+h);
+}
+
+function lireHash(){
+  var h = location.hash.replace(/^#/,""); if(!h) return;
+  var p = new URLSearchParams(h);
+  var b = p.get("b"); if(!b) return;
+  var bb = CAT.branches.filter(function(x){ return x.id===b && x.actif; })[0]; if(!bb) return;
+  S.branche = b;
+  S.jours = parseInt(p.get("j"),10) || (bb.variable ? bb.variable.defaut : 0);
+  (p.get("q")||"").split(",").filter(Boolean).forEach(function(pair){
+    var kv = pair.split(":"); if(kv.length===2) S.reponses[kv[0]] = kv[1];
+  });
+  (p.get("i")||"").split(",").filter(Boolean).forEach(function(id){ S.options[id] = true; });
+  S.etape = 2;
+}
+
+/* ---------- rendu ---------- */
+
+function etapes(n){
+  var noms = ["Votre besoin","Votre prestation","Votre demande"];
+  return '<div class="etapes">' + noms.map(function(t,i){
+    var k = i+1, c = k===n ? "on" : (k<n ? "fait" : "");
+    return '<div class="etape '+c+'"><span class="puce">'+k+'</span>'+esc(t)+'</div>';
+  }).join("") + '</div>';
+}
+
+function render(){
+  if(S.etape===1) renderBranches();
+  else if(S.etape===2) renderItems();
+  else if(S.etape===3) renderRecap();
+  else renderFin();
+  ecrireHash();
+  window.scrollTo(0,0);
+}
+
+function renderBranches(){
+  var h = etapes(1) + '<h2>De quoi avez-vous besoin ?</h2><p class="sous">Une seule réponse. Vous ne verrez ensuite que ce qui vous concerne.</p>';
+  CAT.branches.forEach(function(b){
+    if(b.actif){
+      h += '<button class="branche" type="button" data-b="'+esc(b.id)+'"><strong>'+esc(b.titre)+'</strong><span>'+esc(b.resume)+'</span></button>';
+    } else {
+      h += '<div class="branche off"><strong>'+esc(b.titre)+'</strong><span>'+esc(b.resume)+'</span><div class="bientot">Bientôt disponible</div></div>';
+    }
+  });
+  $("app").innerHTML = h;
+  Array.prototype.forEach.call(document.querySelectorAll("[data-b]"), function(el){
+    el.addEventListener("click", function(){
+      var b = CAT.branches.filter(function(x){ return x.id===el.getAttribute("data-b"); })[0];
+      S.branche = b.id;
+      S.jours = b.variable ? b.variable.defaut : 0;
+      S.reponses = {}; S.options = {};
+      b.questions.forEach(function(q){ S.reponses[q.id] = q.choix[0].valeur; });
+      S.etape = 2; render();
+    });
+  });
+  $("barre").hidden = true;
+}
+
+function blocExclu(src, avecOption){
+  var l = src.neFaitPas || []; if(!l.length) return "";
+  var h = '<div class="exclu"><h4>Ce qui n\'est pas inclus</h4><ul>';
+  l.forEach(function(t){ h += "<li>"+esc(t)+"</li>"; });
+  h += "</ul>";
+  if(avecOption && src.optionLiee) h += '<button class="ajouter" type="button" data-add="'+esc(src.optionLiee)+'">Ajouter cette option</button>';
+  return h + "</div>";
+}
+
+function renderItems(){
+  var b = branche();
+  var h = etapes(2) + '<h2>'+esc(b.titre)+'</h2><p class="sous">'+esc(b.resume)+'</p>';
+
+  b.questions.forEach(function(q){
+    h += '<div class="carte"><div class="q">'+esc(q.libelle)+'</div><p class="qaide">'+esc(q.aide)+'</p><div class="choix">';
+    q.choix.forEach(function(c){
+      var on = S.reponses[q.id]===c.valeur;
+      h += '<button class="opt" type="button" role="button" aria-pressed="'+on+'" data-q="'+esc(q.id)+'" data-v="'+esc(c.valeur)+'">'+esc(c.libelle)+'</button>';
+    });
+    h += "</div></div>";
+  });
+
+  if(b.variable){
+    var v = b.variable;
+    h += '<div class="carte"><div class="q">'+esc(v.intitule)+'</div><div class="concret">'+esc(v.concretement)+'</div>';
+    h += '<div class="meta" style="margin:12px 0 8px">De '+v.min+' à '+v.max+' jours, à '+eur(CAT.prixJour)+' par jour.</div>';
+    h += '<div class="stepper"><button type="button" id="moins" aria-label="Retirer un jour"'+(S.jours<=v.min?" disabled":"")+'>−</button>';
+    h += '<span class="val" id="valj">'+S.jours+' jours</span>';
+    h += '<button type="button" id="plus" aria-label="Ajouter un jour"'+(S.jours>=v.max?" disabled":"")+'>+</button>';
+    h += '<span class="meta" style="margin-left:auto">'+eur(S.jours*CAT.prixJour)+'</span></div>';
+    h += blocExclu(v,false) + '</div>';
+  }
+
+  h += '<h2>Compris dans toute prestation</h2><p class="sous">Ces éléments ne se décochent pas, ils font la prestation.</p><div class="carte">';
+  socleActif().forEach(function(x){
+    h += '<div class="ligne"><div class="corps"><div class="titre-item">'+esc(x.intitule)+'</div>';
+    h += '<div class="concret">'+esc(x.src.concretement)+'</div>';
+    h += '<div class="meta">'+x.jours+(x.jours>1?" jours":" jour")+(x.note?" · "+esc(x.note):"")+'</div>';
+    h += blocExclu(x.src,true);
+    h += '</div><div class="prix">'+eur(x.jours*CAT.prixJour)+'</div></div>';
+  });
+  h += "</div>";
+
+  h += '<h2>À ajouter selon votre situation</h2><p class="sous">Trois options. Rien n\'est coché par défaut.</p><div class="carte">';
+  b.options.forEach(function(o){
+    var on = !!S.options[o.id];
+    h += '<div class="ligne"><button class="case" type="button" aria-pressed="'+on+'" data-o="'+esc(o.id)+'" aria-label="'+esc(o.intitule)+'"></button>';
+    h += '<div class="corps"><div class="titre-item">'+esc(o.intitule)+'</div>';
+    h += '<div class="si">'+esc(o.aCocherSi)+'</div>';
+    h += '<div class="meta">'+o.jours+(o.jours>1?" jours":" jour")+' · '+eur(CAT.prixJour)+' par jour</div>';
+    if(on) h += '<div class="concret">'+esc(o.concretement)+'</div>';
+    h += blocExclu(o,true);
+    h += '</div><div class="prix'+(on?"":" gris")+'">'+eur(o.jours*CAT.prixJour)+'</div></div>';
+  });
+  h += "</div>";
+
+  h += '<button class="retour" type="button" id="retour1">Changer de besoin</button>';
+  h += '<p class="pied">Prix par jour de '+eur(CAT.prixJour)+'. '+esc(CAT.mentionTva)+'. Catalogue en vigueur depuis le '+dateFr(CAT.dateEffet)+'.</p>';
+
+  $("app").innerHTML = h;
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-q]"), function(el){
+    el.addEventListener("click", function(){ S.reponses[el.getAttribute("data-q")] = el.getAttribute("data-v"); render(); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-o]"), function(el){
+    el.addEventListener("click", function(){ var id = el.getAttribute("data-o"); S.options[id] = !S.options[id]; render(); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-add]"), function(el){
+    el.addEventListener("click", function(){ S.options[el.getAttribute("data-add")] = true; render(); });
+  });
+  if($("moins")) $("moins").addEventListener("click", function(){ if(S.jours>b.variable.min){ S.jours--; render(); } });
+  if($("plus")) $("plus").addEventListener("click", function(){ if(S.jours<b.variable.max){ S.jours++; render(); } });
+  $("retour1").addEventListener("click", function(){ S.etape=1; render(); });
+
+  majBarre("Voir le récapitulatif", function(){ S.etape=3; render(); });
+}
+
+function renderRecap(){
+  var h = etapes(3) + '<h2>Votre demande</h2><p class="sous">Vérifiez, complétez, puis confirmez. Rien ne vous engage à ce stade.</p>';
+
+  h += '<div class="carte">';
+  detail().forEach(function(x){
+    h += '<div class="recap-l"><span>'+esc(x.intitule)+', '+x.jours+(x.jours>1?" jours":" jour")+'</span><span>'+eur(x.jours*CAT.prixJour)+'</span></div>';
+  });
+  h += '<div class="recap-t"><span>Total indicatif, '+totalJours()+' jours</span><b>'+eur(totalEuros())+'</b></div>';
+  h += '<p class="aide">'+esc(CAT.mentionTva)+'. Ce montant est indicatif et n\'engage aucune des deux parties.</p>';
+  h += '</div>';
+
+  h += '<div class="attest" id="att1"><button class="case" type="button" aria-pressed="'+S.c1+'" id="cb1" aria-label="Je comprends la prestation demandée"></button>';
+  h += '<p>J\'ai clairement compris la prestation que je demande.</p></div>';
+  h += '<div id="e1"></div>';
+
+  var ex = exclusions();
+  h += '<div class="exclu" style="margin-top:20px"><h4>Ce qui n\'est pas inclus, '+ex.length+' point'+(ex.length>1?"s":"")+'</h4><ul>';
+  ex.forEach(function(e){ h += "<li>"+esc(e.texte)+"</li>"; });
+  h += '</ul></div>';
+
+  h += '<div class="attest" id="att2"><button class="case" type="button" aria-pressed="'+S.c2+'" id="cb2" aria-label="Je prends connaissance des points non inclus"></button>';
+  h += '<p>J\'ai pris connaissance des '+ex.length+' point'+(ex.length>1?"s":"")+' non inclus dans cette prestation.</p></div>';
+  h += '<div id="e2"></div>';
+
+  var pr = prerequis();
+  if(pr.length){
+    h += '<div class="carte" style="margin-top:20px"><div class="q">Ce dont j\'ai besoin de votre part</div><ul style="margin:8px 0 0;padding-left:18px;color:var(--texte-2);font-size:14px">';
+    pr.forEach(function(t){ h += "<li>"+esc(t)+"</li>"; });
+    h += "</ul></div>";
+  }
+
+  h += '<h2>Vos coordonnées</h2><div class="carte">';
+  h += champ("societe","Société","text",param("c"));
+  h += champ("contact","Nom et prénom","text","");
+  h += champ("email","Email professionnel","email","");
+  h += champ("tel","Téléphone","tel","");
+  h += '<label class="champ" for="precisions" style="margin-top:14px">Précisions sur votre contexte</label>';
+  h += '<textarea id="precisions" maxlength="500" placeholder="Deux sites, équipes de niveaux inégaux, contrainte de date…">'+esc(S.precisions)+'</textarea>';
+  h += '<p class="aide">Ces précisions ne modifient pas le périmètre tant qu\'elles ne sont pas reprises dans le devis. <span id="cpt">500</span> caractères restants.</p>';
+  h += '<div class="hp"><label for="site">Ne pas remplir</label><input type="text" id="site" tabindex="-1" autocomplete="off"></div>';
+  h += '<div id="e3"></div>';
+  h += '</div>';
+
+  h += '<button class="retour" type="button" id="retour2">Modifier ma sélection</button>';
+  h += '<p class="pied">Après confirmation, vous recevez un récapitulatif détaillé par email, puis un devis sous '+CAT.delaiReponseHeures+' heures. Le devis seul a valeur d\'engagement.</p>';
+
+  $("app").innerHTML = h;
+
+  $("cb1").addEventListener("click", function(){ S.c1=!S.c1; this.setAttribute("aria-pressed",S.c1); $("att1").classList.remove("manque"); $("e1").innerHTML=""; });
+  $("cb2").addEventListener("click", function(){ S.c2=!S.c2; this.setAttribute("aria-pressed",S.c2); $("att2").classList.remove("manque"); $("e2").innerHTML=""; });
+  $("precisions").addEventListener("input", function(){ S.precisions=this.value; $("cpt").textContent = 500-this.value.length; });
+  $("cpt").textContent = 500 - S.precisions.length;
+  $("retour2").addEventListener("click", function(){ S.etape=2; render(); });
+
+  majBarre("Confirmer ma demande", envoyer);
+}
+
+function champ(id,lib,type,val){
+  return '<label class="champ" for="'+id+'" style="margin-top:10px">'+esc(lib)+'</label><input type="'+type+'" id="'+id+'" value="'+esc(val)+'" autocomplete="'+(type==="email"?"email":type==="tel"?"tel":"organization")+'">';
+}
+
+function renderFin(){
+  var h = '<div class="fin"><h2 style="margin-top:0">Demande enregistrée</h2>';
+  h += '<div class="ref">'+esc(S.reference)+'</div>';
+  h += '<p>Votre récapitulatif détaillé part par email à l\'instant, avec le rappel de ce qui est inclus et de ce qui ne l\'est pas.</p>';
+  h += '<p>Vous recevrez ensuite un devis sous '+CAT.delaiReponseHeures+' heures. Conservez la référence ci-dessus pour tout échange.</p></div>';
+  $("app").innerHTML = h;
+  $("barre").hidden = true;
+}
+
+function majBarre(libelle, action){
+  var b = $("barre");
+  b.hidden = false;
+  $("barre-n").textContent = totalJours() + " jours au total";
+  $("barre-m").textContent = eur(totalEuros());
+  var c = $("barre-cta");
+  c.textContent = libelle;
+  c.onclick = action;
+  c.disabled = ENVOI;
+}
+
+function dateFr(iso){
+  var d = new Date(iso+"T00:00:00");
+  return d.toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
+}
+
+/* ---------- envoi ---------- */
+
+function erreur(cible, texte, ancre){
+  $(cible).innerHTML = '<p class="err">'+esc(texte)+'</p>';
+  if(ancre){ ancre.classList.add("manque"); ancre.scrollIntoView({block:"center",behavior:"smooth"}); }
+}
+
+function envoyer(){
+  if(ENVOI) return;
+  $("e1").innerHTML=""; $("e2").innerHTML=""; $("e3").innerHTML="";
+
+  if(!S.c1){ erreur("e1","Cochez cette case pour continuer.", $("att1")); return; }
+  if(!S.c2){ erreur("e2","Cochez cette case pour continuer.", $("att2")); return; }
+
+  var societe = $("societe").value.trim();
+  var contact = $("contact").value.trim();
+  var email = $("email").value.trim();
+  var tel = $("tel").value.trim();
+
+  if(!societe || !contact || !email){ erreur("e3","Société, nom et email sont nécessaires pour établir le devis."); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ erreur("e3","Cet email ne semble pas valide."); return; }
+
+  ENVOI = true;
+  var c = $("barre-cta"); c.disabled = true; c.textContent = "Envoi…";
+
+  var corps = new URLSearchParams();
+  corps.set("branche", S.branche);
+  corps.set("reponses", JSON.stringify(S.reponses));
+  corps.set("jours", String(S.jours));
+  corps.set("options", Object.keys(S.options).filter(function(k){ return S.options[k]; }).join(","));
+  corps.set("societe", societe);
+  corps.set("contact", contact);
+  corps.set("email", email);
+  corps.set("tel", tel);
+  corps.set("precisions", S.precisions);
+  corps.set("client_param", param("c"));
+  corps.set("k", param("k"));
+  corps.set("exclusions", JSON.stringify(exclusions().map(function(e){ return e.texte; })));
+  corps.set("total_client", String(totalEuros()));
+  corps.set("version", CAT.version);
+  corps.set("lien", location.href);
+  corps.set("site", $("site").value);
+
+  fetch(ENDPOINT, {
+    method:"POST",
+    headers:{ "Content-Type":"application/x-www-form-urlencoded;charset=UTF-8" },
+    body: corps.toString()
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    if(d && d.ok){ S.reference = d.reference; S.etape = 4; render(); return; }
+    var code = d && d.code;
+    ENVOI = false;
+    c.disabled = false; c.textContent = "Confirmer ma demande";
+    if(code === "lien"){
+      erreur("e3","Ce lien n'est plus reconnu. Écrivez à "+REPLI.email+" pour en recevoir un nouveau, votre sélection est conservée dans l'adresse de cette page.");
+    } else if(code === "quota"){
+      erreur("e3","Une demande a déjà été enregistrée pour cette adresse aujourd'hui. Écrivez à "+REPLI.email+" si vous souhaitez la modifier.");
+    } else {
+      erreur("e3","La demande n'a pas été acceptée. Réessayez, ou écrivez à "+REPLI.email+" en indiquant l'adresse de cette page.");
+    }
+  })
+  .catch(function(){
+    ENVOI = false;
+    c.disabled = false; c.textContent = "Confirmer ma demande";
+    erreur("e3","L'envoi a échoué. Réessayez, ou écrivez directement à "+REPLI.email+" en indiquant l'adresse de cette page.");
+  });
+}
+
+/* ---------- démarrage ---------- */
+
+fetch("catalogue.json", {cache:"no-cache"})
+  .then(function(r){ return r.json(); })
+  .then(function(j){
+    CAT = j;
+    $("soustitre").textContent = j.prestataire.activite;
+    var c = param("c");
+    if(c){ $("pour").hidden = false; $("pour").textContent = "Préparé pour " + c + (param("r") ? " · " + param("r") : ""); }
+    lireHash();
+    render();
+  })
+  .catch(repli);
+
+/* Repli : la page reste utile même si le catalogue ne se charge pas.
+   Les coordonnées sont en dur ici, puisque c'est justement le fichier
+   qui les porte qui est indisponible. */
+function repli(){
+  var h = '<div class="carte" style="margin-top:22px">';
+  h += '<h2 style="margin-top:0">Le configurateur est momentanément indisponible</h2>';
+  h += '<p class="sous">Cela ne vous fait perdre ni votre demande ni votre place. Écrivez-moi en une ligne ce que vous cherchez, je vous réponds sous 48 heures ouvrées avec une proposition chiffrée.</p>';
+  h += '<p style="margin:16px 0 0"><a class="cta" style="display:inline-block;text-decoration:none" href="mailto:'+REPLI.email+'?subject='+encodeURIComponent('Demande de prestation')+'">Écrire à '+REPLI.nom+'</a></p>';
+  h += '<p class="aide" style="margin-top:14px">'+REPLI.email+'</p>';
+  h += '</div>';
+  $("app").innerHTML = h;
+  $("barre").hidden = true;
+}
+</script>
+</body>
+</html>

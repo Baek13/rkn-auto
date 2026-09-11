@@ -1,0 +1,194 @@
+{
+  "version": "2026.T3",
+  "dateEffet": "2026-09-05",
+  "prixJour": 900,
+  "devise": "EUR",
+  "tvaApplicable": false,
+  "mentionTva": "TVA non applicable, article 293 B du CGI",
+  "validiteJours": 30,
+  "delaiReponseHeures": 48,
+  "prestataire": {
+    "nom": "Rémi Kinkel",
+    "activite": "Consultant formateur en administration systèmes et réseaux et en cybersécurité",
+    "email": "kiduloc@gmail.com",
+    "ville": "Marseille"
+  },
+  "branches": [
+    {
+      "id": "formation",
+      "actif": true,
+      "titre": "Former mes équipes",
+      "resume": "Vos équipes savent en théorie, mais rien ne change en production.",
+      "questions": [
+        {
+          "id": "support",
+          "libelle": "Disposez-vous déjà d'un support de cours ?",
+          "aide": "Cette réponse ne change pas le prix par jour, elle change le nombre de jours de préparation.",
+          "choix": [
+            { "valeur": "oui", "libelle": "Oui, je vous le fournis" },
+            { "valeur": "non", "libelle": "Non, tout est à écrire" }
+          ]
+        },
+        {
+          "id": "public",
+          "libelle": "Qui suit la formation ?",
+          "aide": "Le déroulé et le rythme ne sont pas les mêmes selon le public.",
+          "choix": [
+            { "valeur": "techniciens", "libelle": "Techniciens et administrateurs" },
+            { "valeur": "encadrants", "libelle": "Encadrants et dirigeants" },
+            { "valeur": "etudiants", "libelle": "Étudiants ou alternants" }
+          ]
+        }
+      ],
+      "variable": {
+        "id": "animation",
+        "intitule": "Animation de la formation",
+        "unite": "jour",
+        "min": 3,
+        "max": 5,
+        "defaut": 3,
+        "concretement": "J'anime la session devant votre groupe, du premier au dernier jour. Le rythme est adapté en direct au niveau réel de la salle, mais le nombre de jours reste celui que vous fixez ici.",
+        "neFaitPas": [
+          "L'accueil de participants supplémentaires arrivés en cours de session",
+          "La reprise individuelle d'un participant en dehors des heures de formation"
+        ]
+      },
+      "socle": [
+        {
+          "id": "cadrage",
+          "intitule": "Cadrage et adaptation",
+          "concretement": "Nous cadrons ensemble le niveau réel de vos équipes et ce que vous attendez à la sortie, puis j'ajuste le déroulé en conséquence.",
+          "fait": [
+            "Un échange de cadrage avec vous avant la session",
+            "L'ajustement du déroulé au niveau réel du groupe",
+            "La liste du matériel et des accès nécessaires"
+          ],
+          "neFaitPas": [
+            "La refonte complète d'un support existant que vous me fournissez",
+            "La rédaction de votre plan de développement des compétences"
+          ],
+          "prerequis": [
+            "Un interlocuteur qui connaît le niveau réel des participants"
+          ],
+          "jours": 1,
+          "joursSi": { "question": "support", "valeur": "non", "jours": 2 },
+          "noteSi": "Le support n'existe pas, la préparation passe de 1 à 2 jours."
+        },
+        {
+          "id": "casusage",
+          "intitule": "Cas d'usage adaptés à votre infrastructure",
+          "concretement": "Je construis les exercices à partir de vos outils et de votre organisation réelle, au lieu d'exemples génériques que personne ne reconnaît.",
+          "fait": [
+            "Des exercices construits sur vos outils et vos usages",
+            "Le vocabulaire et les procédures de votre maison",
+            "Les traces et les cas réels que vous acceptez de partager"
+          ],
+          "neFaitPas": [
+            "Tout accès à votre production, même en lecture",
+            "L'audit de votre existant, qui est une prestation distincte",
+            "La correction des problèmes découverts pendant la préparation"
+          ],
+          "prerequis": [
+            "Une description de vos outils et de votre organisation",
+            "L'accord de votre RSSI ou de votre DSI sur ce qui peut être utilisé"
+          ],
+          "jours": 1,
+          "optionLiee": null
+        }
+      ],
+      "options": [
+        {
+          "id": "plateforme",
+          "intitule": "Plateforme de travaux pratiques",
+          "aCocherSi": "Vos équipes ont déjà suivi des formations théoriques sans que rien ne change en production.",
+          "concretement": "Je monte un environnement complet où chacun manipule sur des machines réelles pendant toute la session. Chaque participant casse, répare et recommence sur sa propre instance, sans risque pour vos systèmes.",
+          "fait": [
+            "Un environnement complet monté et opéré par mes soins",
+            "Une instance par participant, isolée des autres",
+            "Les jeux de données et les scénarios prêts à l'emploi"
+          ],
+          "neFaitPas": [
+            "L'hébergement de la plateforme après la fin de la session",
+            "L'utilisation de vos propres serveurs comme support de travaux pratiques",
+            "La fourniture de postes de travail aux participants"
+          ],
+          "prerequis": [
+            "Un accès internet non filtré dans la salle",
+            "Un poste par participant, ou un poste pour deux"
+          ],
+          "jours": 1
+        },
+        {
+          "id": "evaluation",
+          "intitule": "Évaluation et attestation de fin",
+          "aCocherSi": "Vous devez justifier la montée en compétences auprès d'un financeur, d'un auditeur ou de votre direction.",
+          "concretement": "Chaque participant est évalué sur ce qu'il sait faire à la sortie, pas sur ce qu'il a écouté. Vous recevez les résultats et une attestation nominative par participant.",
+          "fait": [
+            "Une évaluation pratique par participant",
+            "Une attestation nominative de fin de formation",
+            "Une synthèse des acquis et des points restants"
+          ],
+          "neFaitPas": [
+            "Le dépôt et le suivi du dossier auprès de votre financeur",
+            "La délivrance d'une certification officielle ou d'un titre reconnu",
+            "L'inscription des participants à un examen externe"
+          ],
+          "prerequis": [
+            "La liste nominative des participants avant la session"
+          ],
+          "jours": 1
+        },
+        {
+          "id": "reprise",
+          "intitule": "Reprise à 30 jours",
+          "aCocherSi": "Vos formations précédentes étaient oubliées au bout d'un mois.",
+          "concretement": "Je reviens un mois après la session pour reprendre ce qui bloque réellement, une fois que vos équipes ont essayé d'appliquer. C'est la journée qui transforme une formation en changement de pratique.",
+          "fait": [
+            "Une journée sur site un mois après la session",
+            "La reprise des points qui ont résisté au retour en production",
+            "Un compte rendu des difficultés récurrentes"
+          ],
+          "neFaitPas": [
+            "Toute intervention sur vos systèmes en dehors de cette journée",
+            "Le support à distance entre la session et la reprise",
+            "Le remplacement d'un contrat de maintenance"
+          ],
+          "prerequis": [
+            "Une date arrêtée au plus tard le dernier jour de la session"
+          ],
+          "jours": 1
+        }
+      ]
+    },
+    {
+      "id": "miseenplace",
+      "actif": false,
+      "titre": "Mettre en place une solution",
+      "resume": "Vous avez choisi un outil, personne ne l'a déployé correctement.",
+      "questions": [],
+      "variable": null,
+      "socle": [],
+      "options": []
+    },
+    {
+      "id": "audit",
+      "actif": false,
+      "titre": "Savoir où j'en suis",
+      "resume": "Vous ne savez pas ce qui vous protège réellement aujourd'hui.",
+      "questions": [],
+      "variable": null,
+      "socle": [],
+      "options": []
+    },
+    {
+      "id": "support",
+      "actif": false,
+      "titre": "Débloquer une situation",
+      "resume": "Quelque chose ne fonctionne pas et personne en interne ne trouve.",
+      "questions": [],
+      "variable": null,
+      "socle": [],
+      "options": []
+    }
+  ]
+}
